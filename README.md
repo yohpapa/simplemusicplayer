@@ -1,7 +1,11 @@
-* Simple music player for Android
+Simple music player for Android
+==============
+
 Simple music player is an application built with cordova (phonegap) and jQuery mobile. This project is for me to learn how to develop a mobile application using web technologies.
 
-* License
+License
+==============
+
 Copyright [2013] [Kensuke Nakai]
 
 Licensed under the Apache License, Version 2.0 (the "License");
