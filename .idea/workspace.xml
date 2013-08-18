@@ -486,7 +486,11 @@
       <created>1376862710882</created>
       <updated>1376862710882</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Modified README.md file.">
+      <created>1376862918722</created>
+      <updated>1376862918722</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -548,7 +552,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Add README.md file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add README.md file." />
+    <MESSAGE value="Modified README.md file." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified README.md file." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

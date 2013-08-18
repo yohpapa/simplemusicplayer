@@ -6,7 +6,7 @@ Simple music player is an application built with cordova (phonegap) and jQuery m
 License
 ==============
 
-Copyright [2013] [Kensuke Nakai]
+Copyright 2013 Kensuke Nakai
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
