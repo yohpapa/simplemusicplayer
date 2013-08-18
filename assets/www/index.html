@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="third_party/jquerymobile/jquery.mobile-1.3.2.css" />
+        <style type="text/css">
+        #artwork {
+            padding: 10px;
+            width: 200px;
+            height: 200px;
+        }
+        </style>
+        <script src="third_party/jquery/jquery-1.9.1.js"></script>
+        <script src="third_party/jquerymobile/jquery.mobile-1.3.2.js"></script>
+    </head>
+    <body>
+        <div id="page_albums" data-role="page">
+            <div data-role="header" data-position="fixed">
+                <h1>Albums</h1>
+                <a id="settings" href="#" data-icon="info" class="ui-btn-right">Settings</a>
+            </div>
+            <div data-role="content">
+                <ul id="list_albums" data-role="listview" data-filter="true" data-inset="true">
+                </ul>
+            </div>
+        </div>
+        <div id="page_album_tracks" data-role="page">
+            <div data-role="header" data-position="fixed">
+                <a data-role="button" data-transition="slide" href="#page_albums" data-rel="back">Back</a>
+                <h1 id="album_title"></h1>
+            </div>
+            <div data-role="content">
+                <img id="artwork" />
+                <ul id="list_tracks" data-role="listview" data-inset="true">
+                </ul>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>

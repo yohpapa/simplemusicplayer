@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"
+        id="com.yohpapa.research.simplemusicplayer"
+        version="0.0.1">
+
+    <name>SimpleMusicPlayer</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="android.kemuo@gmail.com" href="http://www.yohpapa.com">
+        yohpapa
+    </author>
+    <access origin="*" />
+
+    <preference name="fullscreen" value="false" />
+    <preference name="webviewbounce" value="true" />
+
+    <feature name="ListManager">
+        <param name="android-package"
+               value="com.yohpapa.research.simplemusicplayer.plugins.ListManager" />
+    </feature>
+
+    <feature name="PlaybackController">
+        <param name="android-package"
+               value="com.yohpapa.research.simplemusicplayer.plugins.PlaybackController" />
+    </feature>
+
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.core.Notification" />
+    </feature>
+</widget>
