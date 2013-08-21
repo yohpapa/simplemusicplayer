@@ -1,5 +1,20 @@
 /**
- * Created by YohPapa on 2013/08/15.
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
  */
 
 package com.yohpapa.research.simplemusicplayer;
@@ -42,6 +57,8 @@ public class PlaybackService extends Service
     private static final String TAG = PlaybackService.class.getSimpleName();
     private static final String URI_BASE = PlaybackService.class.getName() + ".";
     private static final String ACTION_PAUSE = URI_BASE + "ACTION_PAUSE";
+    private static final String ACTION_PLAY = URI_BASE + "ACTION_PLAY";
+    private static final String ACTION_STOP = URI_BASE + "ACTION_STOP";
 
     private EventBus eventBus = null;
 
@@ -291,6 +308,11 @@ public class PlaybackService extends Service
         Cursor albumCursor = null;
         try {
             Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, event.getTrackId());
+            if(uri == null) {
+                eventBus.post(new NotificationPreparedEvent(event.getTrackId(), null, null, null, null));
+                return;
+            }
+
             trackCursor = resolver.query(
                                 uri,
                                 new String[] {
@@ -313,6 +335,10 @@ public class PlaybackService extends Service
 
             if(albumId != -1L) {
                 uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId);
+                if(uri == null) {
+                    eventBus.post(new NotificationPreparedEvent(event.getTrackId(), null, null, null, null));
+                    return;
+                }
                 albumCursor = resolver.query(
                                     uri,
                                     new String[] {
@@ -337,7 +363,6 @@ public class PlaybackService extends Service
             }
 
             eventBus.post(new NotificationPreparedEvent(event.getTrackId(), title, artist, album, artwork));
-            return;
 
         } finally {
             if(trackCursor != null) {
@@ -352,37 +377,69 @@ public class PlaybackService extends Service
     public void onEventMainThread(NotificationPreparedEvent event) {
         Log.d(TAG, "onEventMainThread: NotificationPreparedEvent");
 
+        showNotification(NOTIFICATION_TYPE_PAUSE, event.getTitle(), event.getArtist(), event.getAlbum(), event.getArtwork());
+    }
+
+    private static final int NOTIFICATION_TYPE_PAUSE = 0;
+    private static final int NOTIFICATION_TYPE_PLAY = 1;
+    private void showNotification(int type, String title, String artist, String album, Bitmap artwork) {
+        Log.d(TAG, "showNotification type: " + type);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        if(event.getArtwork() != null) {
-            builder.setLargeIcon(event.getArtwork());
+        builder.setWhen(System.currentTimeMillis());
+        builder.setContentTitle(title);
+
+        if(artwork != null) {
+            builder.setLargeIcon(artwork);
         }
         builder.setSmallIcon(R.drawable.ic_launcher);
-        builder.setContentTitle(event.getTitle());
-        builder.setContentText(event.getArtist());
-        builder.setSubText(event.getAlbum());
+        builder.setTicker(title);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setContentText(artist);
+        builder.setSubText(album);
 
-        // TODO: It does not work well...
-        Intent intent = new Intent(this, PlaybackService.class);
-        intent.setAction(ACTION_PAUSE);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(android.R.drawable.ic_media_pause, "PAUSE", pendingIntent);
+        Intent actionIntent = new Intent(this, PlaybackService.class);
+        String keyTop;
+        if(type == NOTIFICATION_TYPE_PAUSE) {
+            actionIntent.setAction(ACTION_PAUSE);
+            keyTop = "PAUSE";
+        } else {
+            actionIntent.setAction(ACTION_PLAY);
+            keyTop = "PLAY";
+        }
+        PendingIntent actionPendingIntent = PendingIntent.getService(this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.ic_media_pause, keyTop, actionPendingIntent);
 
-        intent = new Intent(this, SimpleMusicPlayer.class);
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent stopIntent = new Intent(this, PlaybackService.class);
+        PendingIntent stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.ic_delete, "STOP", stopPendingIntent);
+
+        Intent intent = new Intent(this, SimpleMusicPlayer.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
 
         startForeground(R.id.notification_id, builder.build());
-//        NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-//        manager.notify(R.id.notification_id, builder.build());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null && ACTION_PAUSE.equals(intent.getAction())) {
-            pauseTrack();
+        Log.d(TAG, "onStartCommand");
+
+        if(intent == null) {
+            Log.d(TAG, "The intent is null.");
             return START_REDELIVER_INTENT;
         }
 
-        return super.onStartCommand(intent, flags, startId);
+        String action = intent.getAction();
+
+        if(ACTION_PAUSE.equals(action)) {
+            pauseTrack();
+        } else if(ACTION_PLAY.equals(action)) {
+            // TODO:
+        } else if(ACTION_STOP.equals(action)) {
+            // TODO:
+        }
+
+        return START_REDELIVER_INTENT;
     }
 }
