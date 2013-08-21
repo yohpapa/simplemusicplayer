@@ -15,25 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64415596-63b1-4baf-96be-0e7f5a1d1911" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/ListManager.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/ListManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PauseEvent.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PauseEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayEvent.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayPauseEvent.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayPauseEvent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PrepareEvent.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PrepareEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/SimpleMusicPlayer.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/SimpleMusicPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/TrackChangedEvent.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/TrackChangedEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/config.xml" afterPath="$PROJECT_DIR$/assets/www/config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/config.xml" afterPath="$PROJECT_DIR$/res/xml/config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/cordova_plugins.js" afterPath="$PROJECT_DIR$/assets/www/cordova_plugins.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/ids.xml" afterPath="$PROJECT_DIR$/res/values/ids.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/index.html" afterPath="$PROJECT_DIR$/assets/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/plugins/list_manager.js" afterPath="$PROJECT_DIR$/assets/www/plugins/list_manager.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/main.xml" afterPath="$PROJECT_DIR$/res/layout/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/plugins/playback_controller.js" afterPath="$PROJECT_DIR$/assets/www/plugins/playback_controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/js/index.js" afterPath="$PROJECT_DIR$/assets/www/js/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="android.iws" />
@@ -103,42 +87,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SimpleMusicPlayer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/SimpleMusicPlayer.java">
+      <file leaf-file-name="PlaybackService.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="4" selection-end="770" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+            <state line="146" column="0" selection-start="4826" selection-end="4826" vertical-scroll-proportion="0.3325359" vertical-offset="1601" max-vertical-offset="7200">
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#2984#2994#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <file leaf-file-name="PlayStateChangedEvent.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="26" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0" vertical-offset="291" max-vertical-offset="990">
+            <state line="25" column="46" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.0" vertical-offset="21" max-vertical-offset="735">
               <folding>
-                <element signature="e#1708#1726#0" expanded="true" />
+                <element signature="n#!!doc" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/www/config.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="15" selection-start="873" selection-end="873" vertical-scroll-proportion="0.0" vertical-offset="147" max-vertical-offset="840">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ListManager.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/ListManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="14" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.32608697" vertical-offset="0" max-vertical-offset="2250">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -177,17 +144,17 @@
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PauseEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayPauseEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PrepareEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/TrackChangedEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/ListManager.java" />
-        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/SimpleMusicPlayer.java" />
         <option value="$PROJECT_DIR$/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/res/values/ids.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/xml/config.xml" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java" />
+        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
       </list>
     </option>
   </component>
@@ -309,54 +276,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simplemusicplayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simplemusicplayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="events" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -412,24 +331,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -617,7 +518,11 @@
       <created>1376863002072</created>
       <updated>1376863002072</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="* Add buttons to notification area.&#10;* Add license header to every source code.">
+      <created>1377119489643</created>
+      <updated>1377119489643</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -651,18 +556,18 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.6712517" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38651994" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38651994" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23581848" sideWeight="0.171875" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3287483" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287483" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47578347" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32763532" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23515625" sideWeight="0.6712517" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23515625" sideWeight="0.61348003" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -710,13 +615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="19" selection-start="770" selection-end="770" vertical-scroll-proportion="0.5217391" vertical-offset="0" max-vertical-offset="720">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PrepareEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="775" selection-end="775" vertical-scroll-proportion="0.5869565" vertical-offset="0" max-vertical-offset="660">
@@ -731,22 +629,6 @@
         <state line="18" column="0" selection-start="775" selection-end="775" vertical-scroll-proportion="0.5869565" vertical-offset="0" max-vertical-offset="570">
           <folding>
             <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="774" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6315">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#2984#2994#0" expanded="true" />
-            <element signature="e#5886#6077#0" expanded="true" />
-            <element signature="e#6066#6067#0" expanded="true" />
-            <element signature="e#6435#6578#0" expanded="true" />
-            <element signature="e#6563#6564#0" expanded="true" />
-            <element signature="e#7217#7380#0" expanded="true" />
-            <element signature="e#7361#7362#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -791,35 +673,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/SimpleMusicPlayer.java">
+    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/ListManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="4" selection-end="770" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state line="80" column="0" selection-start="3557" selection-end="3557" vertical-scroll-proportion="1.0729613" vertical-offset="0" max-vertical-offset="2250">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="15" selection-start="873" selection-end="873" vertical-scroll-proportion="0.2274678" vertical-offset="141" max-vertical-offset="840">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="26" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0" vertical-offset="291" max-vertical-offset="990">
+        <state line="44" column="26" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.527897" vertical-offset="291" max-vertical-offset="990">
           <folding>
             <element signature="e#1708#1726#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/config.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/SimpleMusicPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="15" selection-start="873" selection-end="873" vertical-scroll-proportion="0.0" vertical-offset="147" max-vertical-offset="840">
+        <state line="1" column="0" selection-start="4" selection-end="770" vertical-scroll-proportion="0.021459227" vertical-offset="0" max-vertical-offset="699">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/ListManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="14" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.32608697" vertical-offset="0" max-vertical-offset="2250">
-          <folding />
+        <state line="25" column="46" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.0" vertical-offset="21" max-vertical-offset="735">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="146" column="0" selection-start="4826" selection-end="4826" vertical-scroll-proportion="0.3325359" vertical-offset="1601" max-vertical-offset="7200">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#2984#2994#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -23,6 +23,7 @@ public class PlayStateChangedEvent {
 
     public static final int STATE_PLAYING = 0;
     public static final int STATE_PAUSED = 1;
+    public static final int STATE_STOPPED = 2;
 
     private final int state;
     private final int index;

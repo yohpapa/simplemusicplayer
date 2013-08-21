@@ -73,6 +73,52 @@ public class PlaybackService extends Service
     private MediaPlayer player = null;
     private List<Runnable> postProcesses = new ArrayList<Runnable>();
 
+    private class CurrentTrackInfo {
+        private String title = null;
+        private String artistName = null;
+        private String albumName = null;
+        private Bitmap artwork = null;
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setArtistName(String artistName) {
+            this.artistName = artistName;
+        }
+
+        public String getArtistName() {
+            return artistName;
+        }
+
+        public void setAlbumName(String albumName) {
+            this.albumName = albumName;
+        }
+
+        public String getAlbumName() {
+            return albumName;
+        }
+
+        public void setArtwork(Bitmap artwork) {
+            if(this.artwork != null) {
+                if(this.artwork != artwork && !this.artwork.isRecycled()) {
+                    this.artwork.recycle();
+                }
+            }
+
+            this.artwork = artwork;
+        }
+
+        public Bitmap getArtwork() {
+            return this.artwork;
+        }
+    }
+    private CurrentTrackInfo currentTrackInfo = new CurrentTrackInfo();
+
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
@@ -94,10 +140,8 @@ public class PlaybackService extends Service
 
         eventBus.unregister(this);
 
-        if(player.isLooping()) {
-            player.reset();
-            player.release();
-        }
+        player.reset();
+        player.release();
 
         NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(R.id.notification_id);
@@ -255,8 +299,22 @@ public class PlaybackService extends Service
         if(player.isPlaying()) {
             player.pause();
             eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PAUSED, currentIndex));
+
+            showNotification(
+                    NOTIFICATION_TYPE_PLAY,
+                    currentTrackInfo.getTitle(),
+                    currentTrackInfo.getArtistName(),
+                    currentTrackInfo.getAlbumName(),
+                    currentTrackInfo.getArtwork());
+        }
+    }
+
+    private void stopTrack() {
+        if(player.isPlaying()) {
+            player.pause();
         }
 
+        eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_STOPPED, currentIndex));
         stopSelf();
     }
 
@@ -377,7 +435,17 @@ public class PlaybackService extends Service
     public void onEventMainThread(NotificationPreparedEvent event) {
         Log.d(TAG, "onEventMainThread: NotificationPreparedEvent");
 
-        showNotification(NOTIFICATION_TYPE_PAUSE, event.getTitle(), event.getArtist(), event.getAlbum(), event.getArtwork());
+        String title = event.getTitle();
+        String artist = event.getArtist();
+        String album = event.getAlbum();
+        Bitmap artwork = event.getArtwork();
+
+        currentTrackInfo.setTitle(title);
+        currentTrackInfo.setAlbumName(album);
+        currentTrackInfo.setArtistName(artist);
+        currentTrackInfo.setArtwork(artwork);
+
+        showNotification(NOTIFICATION_TYPE_PAUSE, title, artist, album, artwork);
     }
 
     private static final int NOTIFICATION_TYPE_PAUSE = 0;
@@ -400,17 +468,21 @@ public class PlaybackService extends Service
 
         Intent actionIntent = new Intent(this, PlaybackService.class);
         String keyTop;
+        int icon;
         if(type == NOTIFICATION_TYPE_PAUSE) {
             actionIntent.setAction(ACTION_PAUSE);
             keyTop = "PAUSE";
+            icon = android.R.drawable.ic_media_pause;
         } else {
             actionIntent.setAction(ACTION_PLAY);
             keyTop = "PLAY";
+            icon = android.R.drawable.ic_media_play;
         }
         PendingIntent actionPendingIntent = PendingIntent.getService(this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(android.R.drawable.ic_media_pause, keyTop, actionPendingIntent);
+        builder.addAction(icon, keyTop, actionPendingIntent);
 
         Intent stopIntent = new Intent(this, PlaybackService.class);
+        stopIntent.setAction(ACTION_STOP);
         PendingIntent stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.addAction(android.R.drawable.ic_delete, "STOP", stopPendingIntent);
 
@@ -435,9 +507,9 @@ public class PlaybackService extends Service
         if(ACTION_PAUSE.equals(action)) {
             pauseTrack();
         } else if(ACTION_PLAY.equals(action)) {
-            // TODO:
+            playTrack();
         } else if(ACTION_STOP.equals(action)) {
-            // TODO:
+            stopTrack();
         }
 
         return START_REDELIVER_INTENT;

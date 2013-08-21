@@ -184,7 +184,19 @@ function onPlayStateChanged(parameter) {
         return;
     }
 
-    var playState = parameter.state == 0 ? "Playing" : "Paused"
+    var playState = null;
+    switch(parameter.state) {
+    case 0:
+        playState = "Playing";
+        break;
+    case 1:
+        playState = "Paused";
+        break;
+    default:
+        playState = "";
+        break;
+    }
+
     $('ul[id="list_tracks"] li:nth-child(' + (parameter.index + 1) + ') span[class="ui-li-aside"]').html(playState);
 
     $('ul[id="list_tracks"] li').each(function(i, element) {
