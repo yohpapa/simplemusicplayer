@@ -26,6 +26,8 @@
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="18" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <supports-screens
         android:anyDensity="true"
         android:resizeable="true"

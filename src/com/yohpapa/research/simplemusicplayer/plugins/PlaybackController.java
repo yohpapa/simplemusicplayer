@@ -14,13 +14,10 @@ import com.yohpapa.research.simplemusicplayer.plugins.events.PauseEvent;
 import com.yohpapa.research.simplemusicplayer.plugins.events.PlayEvent;
 import com.yohpapa.research.simplemusicplayer.plugins.events.PlayPauseEvent;
 import com.yohpapa.research.simplemusicplayer.plugins.events.PlayStateChangedEvent;
-import com.yohpapa.research.simplemusicplayer.plugins.events.PrepareEvent;
 import com.yohpapa.research.simplemusicplayer.plugins.events.TrackChangedEvent;
 
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,9 +104,11 @@ public class PlaybackController extends CordovaPlugin {
 
         Context context = cordova.getActivity().getApplicationContext();
         Intent intent = new Intent(context, PlaybackService.class);
+        intent.setAction(PlaybackService.ACTION_SELECT);
+        intent.putExtra(PlaybackService.PRM_START_INDEX, startIndex);
+        intent.putExtra(PlaybackService.PRM_TRACK_LIST, trackList);
         ComponentName name = context.startService(intent);
         if(name != null) {
-            eventBus.postSticky(new PrepareEvent(trackList, startIndex));
             callbackContext.success();
         } else {
             callbackContext.error("context.startService has been failed.");

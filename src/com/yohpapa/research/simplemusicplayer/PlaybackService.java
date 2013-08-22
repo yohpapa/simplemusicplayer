@@ -33,6 +33,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -59,6 +60,10 @@ public class PlaybackService extends Service
     private static final String ACTION_PAUSE = URI_BASE + "ACTION_PAUSE";
     private static final String ACTION_PLAY = URI_BASE + "ACTION_PLAY";
     private static final String ACTION_STOP = URI_BASE + "ACTION_STOP";
+
+    public static final String ACTION_SELECT = URI_BASE + "ACTION_SELECT";
+    public static final String PRM_START_INDEX = URI_BASE + "PRM_START_INDEX";
+    public static final String PRM_TRACK_LIST = URI_BASE + "PRM_TRACK_LIST";
 
     private EventBus eventBus = null;
 
@@ -119,6 +124,8 @@ public class PlaybackService extends Service
     }
     private CurrentTrackInfo currentTrackInfo = new CurrentTrackInfo();
 
+    private PowerManager.WakeLock wakeLock = null;
+
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
@@ -131,6 +138,10 @@ public class PlaybackService extends Service
 
         eventBus = EventBus.getDefault();
         eventBus.registerSticky(this);
+
+        PowerManager manager = (PowerManager)getSystemService(POWER_SERVICE);
+        wakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        wakeLock.acquire();
     }
 
     @Override
@@ -145,6 +156,8 @@ public class PlaybackService extends Service
 
         NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(R.id.notification_id);
+
+        wakeLock.release();
     }
 
     @Override
@@ -244,6 +257,17 @@ public class PlaybackService extends Service
     public void onEventMainThread(PlayEvent event) {
         Log.d(TAG, "onEventMainThread: PlayEvent");
 
+        if(!isStarted()) {
+            Log.d(TAG, "The service has not been started yet.");
+            postProcesses.add(new Runnable() {
+                @Override
+                public void run() {
+                    playTrack();
+                }
+            });
+            return;
+        }
+
         if(state != STATE_PREPARED) {
             postProcesses.add(new Runnable() {
                 @Override
@@ -260,6 +284,17 @@ public class PlaybackService extends Service
     public void onEventMainThread(PauseEvent event) {
         Log.d(TAG, "onEventMainThread: PauseEvent");
 
+        if(!isStarted()) {
+            Log.d(TAG, "The service has not been started yet.");
+            postProcesses.add(new Runnable() {
+                @Override
+                public void run() {
+                    pauseTrack();
+                }
+            });
+            return;
+        }
+
         if(!player.isPlaying()) {
             Log.d(TAG, "The player is not playing now.");
             return;
@@ -269,6 +304,21 @@ public class PlaybackService extends Service
 
     public void onEventMainThread(PlayPauseEvent event) {
         Log.d(TAG, "onEventMainThread: PlayPauseEvent");
+
+        if(!isStarted()) {
+            Log.d(TAG, "The service has not been started yet.");
+            postProcesses.add(new Runnable() {
+                @Override
+                public void run() {
+                    if(player.isPlaying()) {
+                        pauseTrack();
+                    } else {
+                        playTrack();
+                    }
+                }
+            });
+            return;
+        }
 
         if(player.isPlaying()) {
             pauseTrack();
@@ -510,8 +560,16 @@ public class PlaybackService extends Service
             playTrack();
         } else if(ACTION_STOP.equals(action)) {
             stopTrack();
+        } else if(ACTION_SELECT.equals(action)) {
+            int startIndex = intent.getIntExtra(PRM_START_INDEX, 0);
+            long[] trackList = intent.getLongArrayExtra(PRM_TRACK_LIST);
+            eventBus.post(new PrepareEvent(trackList, startIndex));
         }
 
         return START_REDELIVER_INTENT;
+    }
+
+    private boolean isStarted() {
+        return wakeLock != null;
     }
 }
