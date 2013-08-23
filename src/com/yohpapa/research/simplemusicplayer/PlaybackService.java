@@ -22,20 +22,24 @@ package com.yohpapa.research.simplemusicplayer;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.yohpapa.research.simplemusicplayer.plugins.events.PauseEvent;
@@ -53,7 +57,10 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 public class PlaybackService extends Service
-        implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
+        implements MediaPlayer.OnCompletionListener,
+                   MediaPlayer.OnPreparedListener,
+                   MediaPlayer.OnErrorListener,
+                   MediaPlayer.OnSeekCompleteListener {
 
     private static final String TAG = PlaybackService.class.getSimpleName();
     private static final String URI_BASE = PlaybackService.class.getName() + ".";
@@ -65,14 +72,19 @@ public class PlaybackService extends Service
     public static final String PRM_START_INDEX = URI_BASE + "PRM_START_INDEX";
     public static final String PRM_TRACK_LIST = URI_BASE + "PRM_TRACK_LIST";
 
+    private static final float DUCKING_VOLUME_LEVEL = 0.3f;
+
     private EventBus eventBus = null;
 
     private long[] trackIds = null;
     private int currentIndex = -1;
 
+    private int positionToRestore = -1;
+
     private static final int STATE_IDLE = 0;
     private static final int STATE_PREPARING = 1;
     private static final int STATE_PREPARED = 2;
+    private static final int STATE_SEEKING = 3;
     private int state = STATE_IDLE;
 
     private MediaPlayer player = null;
@@ -124,24 +136,18 @@ public class PlaybackService extends Service
     }
     private CurrentTrackInfo currentTrackInfo = new CurrentTrackInfo();
 
-    private PowerManager.WakeLock wakeLock = null;
+    // --------------------------------------------------------------------------------------------
+    // Service lifecycle event methods block
+    // --------------------------------------------------------------------------------------------
 
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
         super.onCreate();
 
-        player = new MediaPlayer();
-        player.setOnPreparedListener(this);
-        player.setOnCompletionListener(this);
-        player.setOnErrorListener(this);
-
+        player = initializePlayer();
         eventBus = EventBus.getDefault();
         eventBus.registerSticky(this);
-
-        PowerManager manager = (PowerManager)getSystemService(POWER_SERVICE);
-        wakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-        wakeLock.acquire();
     }
 
     @Override
@@ -151,13 +157,12 @@ public class PlaybackService extends Service
 
         eventBus.unregister(this);
 
-        player.reset();
-        player.release();
+        finalizePlayer();
 
         NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(R.id.notification_id);
 
-        wakeLock.release();
+        abandonAudioFocus();
     }
 
     @Override
@@ -165,6 +170,67 @@ public class PlaybackService extends Service
         Log.d(TAG, "onBind");
         return null;
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand");
+
+        if(intent == null) {
+            Log.d(TAG, "The intent is null.");
+            return START_REDELIVER_INTENT;
+        }
+
+        String action = intent.getAction();
+
+        if(ACTION_PAUSE.equals(action)) {
+            pauseTrack();
+        } else if(ACTION_PLAY.equals(action)) {
+            playTrack();
+        } else if(ACTION_STOP.equals(action)) {
+            stopTrack();
+        } else if(ACTION_SELECT.equals(action)) {
+            int startIndex = intent.getIntExtra(PRM_START_INDEX, 0);
+            long[] trackList = intent.getLongArrayExtra(PRM_TRACK_LIST);
+            eventBus.post(new PrepareEvent(trackList, startIndex));
+        }
+
+        return START_REDELIVER_INTENT;
+    }
+
+    private boolean isStarted() {
+        return player != null;
+    }
+
+    private MediaPlayer initializePlayer() {
+        MediaPlayer player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
+        player.setOnErrorListener(this);
+        player.setOnSeekCompleteListener(this);
+        player.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        registerReceiver(noisyEventReceiver, filter);
+
+        return player;
+    }
+
+    private void finalizePlayer() {
+        if(player != null) {
+            player.pause();
+            positionToRestore = player.getCurrentPosition();
+            player.release();
+            player = null;
+
+            unregisterReceiver(noisyEventReceiver);
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // Event handler for external and internal methods block
+    // --------------------------------------------------------------------------------------------
 
     public void onEventMainThread(PrepareEvent event) {
         Log.d(TAG, "onEventMainThread: PrepareEvent");
@@ -201,6 +267,7 @@ public class PlaybackService extends Service
 
         trackIds = newTrackIds;
         currentIndex = newIndex;
+        positionToRestore = -1;
 
         prepareToPlay(trackIds[currentIndex]);
     }
@@ -210,7 +277,7 @@ public class PlaybackService extends Service
 
         try {
             player.reset();
-            Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, trackIds[currentIndex]);
+            Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, trackId);
             player.setDataSource(this, uri);
             player.prepareAsync();
 
@@ -225,6 +292,12 @@ public class PlaybackService extends Service
     public void onPrepared(MediaPlayer mp) {
         Log.d(TAG, "onPrepared");
 
+        if(positionToRestore != -1) {
+            player.seekTo(positionToRestore);
+            state = STATE_SEEKING;
+            return;
+        }
+
         for(Runnable postProcess : postProcesses) {
             postProcess.run();
         }
@@ -238,7 +311,9 @@ public class PlaybackService extends Service
         Log.d(TAG, "onCompletion");
 
         currentIndex = (currentIndex + 1) % trackIds.length;
+        positionToRestore = -1;
         prepareToPlay(trackIds[currentIndex]);
+
         postProcesses.add(new Runnable() {
             @Override
             public void run() {
@@ -246,6 +321,18 @@ public class PlaybackService extends Service
                 eventBus.post(new TrackChangedEvent(currentIndex));
             }
         });
+    }
+
+    @Override
+    public void onSeekComplete(MediaPlayer mp) {
+        Log.d(TAG, "onSeekComplete");
+
+        for(Runnable postProcess : postProcesses) {
+            postProcess.run();
+        }
+        postProcesses.clear();
+
+        state = STATE_PREPARED;
     }
 
     @Override
@@ -336,8 +423,17 @@ public class PlaybackService extends Service
         }
     }
 
+    // --------------------------------------------------------------------------------------------
+    // Private playback methods block
+    // --------------------------------------------------------------------------------------------
     private void playTrack() {
         if(!player.isPlaying()) {
+            boolean result = requestAudioFocus();
+            if(!result) {
+                Log.d(TAG, "Requesting the audio focus has failed.");
+                return;
+            }
+
             player.start();
             eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PLAYING, currentIndex));
 
@@ -347,6 +443,8 @@ public class PlaybackService extends Service
 
     private void pauseTrack() {
         if(player.isPlaying()) {
+            abandonAudioFocus();
+
             player.pause();
             eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PAUSED, currentIndex));
 
@@ -368,6 +466,79 @@ public class PlaybackService extends Service
         stopSelf();
     }
 
+    // --------------------------------------------------------------------------------------------
+    // Audio focus control block
+    // --------------------------------------------------------------------------------------------
+    private boolean requestAudioFocus() {
+        AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        int result = manager.requestAudioFocus(
+                                onAudioFocusChangeListener,
+                                AudioManager.STREAM_MUSIC,
+                                AudioManager.AUDIOFOCUS_GAIN);
+
+        return result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+    }
+
+    private void abandonAudioFocus() {
+        AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        manager.abandonAudioFocus(onAudioFocusChangeListener);
+    }
+
+    private final AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+
+            switch(focusChange) {
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    if(player == null) {
+                        player = initializePlayer();
+                        player.setVolume(1.0f, 1.0f);
+                        postProcesses.add(new Runnable() {
+                            @Override
+                            public void run() {
+                                playTrack();
+                            }
+                        });
+                        prepareToPlay(trackIds[currentIndex]);
+                    } else {
+                        if(!player.isPlaying()) {
+                            player.start();
+                        }
+                    }
+                    break;
+
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                    if(player != null) {
+                        player.setVolume(1.0f, 1.0f);
+                    }
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    finalizePlayer();
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    if(player != null) {
+                        player.pause();
+                    }
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    if(player != null) {
+                        player.setVolume(DUCKING_VOLUME_LEVEL, DUCKING_VOLUME_LEVEL);
+                    }
+                    break;
+
+                default:
+                    Log.d(TAG, "Unknown focus change type: " + focusChange);
+                    break;
+            }
+        }
+    };
+
+    // --------------------------------------------------------------------------------------------
+    // Notification control block
+    // --------------------------------------------------------------------------------------------
     private void updateNotification() {
         eventBus.post(new NotificationPrepareEvent(trackIds[currentIndex]));
     }
@@ -543,33 +714,22 @@ public class PlaybackService extends Service
         startForeground(R.id.notification_id, builder.build());
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand");
+    // --------------------------------------------------------------------------------------------
+    // Audio output hardware handling
+    // --------------------------------------------------------------------------------------------
+    private final BroadcastReceiver noisyEventReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent == null)
+                return;
 
-        if(intent == null) {
-            Log.d(TAG, "The intent is null.");
-            return START_REDELIVER_INTENT;
+            String action = intent.getAction();
+            if(TextUtils.isEmpty(action))
+                return;
+
+            if(AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
+                pauseTrack();
+            }
         }
-
-        String action = intent.getAction();
-
-        if(ACTION_PAUSE.equals(action)) {
-            pauseTrack();
-        } else if(ACTION_PLAY.equals(action)) {
-            playTrack();
-        } else if(ACTION_STOP.equals(action)) {
-            stopTrack();
-        } else if(ACTION_SELECT.equals(action)) {
-            int startIndex = intent.getIntExtra(PRM_START_INDEX, 0);
-            long[] trackList = intent.getLongArrayExtra(PRM_TRACK_LIST);
-            eventBus.post(new PrepareEvent(trackList, startIndex));
-        }
-
-        return START_REDELIVER_INTENT;
-    }
-
-    private boolean isStarted() {
-        return wakeLock != null;
-    }
+    };
 }
