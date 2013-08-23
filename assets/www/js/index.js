@@ -46,9 +46,7 @@ var app = {
         lm = cordova.require('cordova/plugin/list_manager');
         pb = cordova.require('cordova/plugin/playback_controller');
 
-        // pb.setPlayStateChangedCallback(this.onPlayStateChanged);
         pb.setPlayStateChangedCallback(onPlayStateChanged);
-
         app.initializeAlbumList();
     },
 
