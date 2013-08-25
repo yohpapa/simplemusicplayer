@@ -14,8 +14,9 @@
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="simplemusicplayer" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64415596-63b1-4baf-96be-0e7f5a1d1911" name="Default" comment="Locking CPU while playing, audio focus control and handling BECOMING_NOISY event have been supported.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js" />
+    <list default="true" id="64415596-63b1-4baf-96be-0e7f5a1d1911" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jqm_touch_response_speed_research_result.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js" afterPath="$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/index.html" afterPath="$PROJECT_DIR$/assets/www/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/js/index.js" afterPath="$PROJECT_DIR$/assets/www/js/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -87,10 +88,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PlaybackService.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PlaybackService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="43" selection-start="456" selection-end="456" vertical-scroll-proportion="0.34615386" vertical-offset="0" max-vertical-offset="10035">
+            <state line="99" column="24" selection-start="3917" selection-end="3917" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="10035">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/www/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="17" selection-start="2403" selection-end="2403" vertical-scroll-proportion="-6.0833335" vertical-offset="709" max-vertical-offset="1140">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fastclick.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="88" column="0" selection-start="3799" selection-end="3799" vertical-scroll-proportion="1.4641025" vertical-offset="749" max-vertical-offset="1410">
               <folding />
             </state>
           </provider>
@@ -109,15 +130,6 @@
         <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="147" column="0" selection-start="5062" selection-end="5062" vertical-scroll-proportion="0.0" vertical-offset="2190" max-vertical-offset="2760">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EventBus.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/libs/eventbus.jar!/de/greenrobot/event/EventBus.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="17" selection-start="3341" selection-end="3341" vertical-scroll-proportion="0.0" vertical-offset="825" max-vertical-offset="1515">
               <folding />
             </state>
           </provider>
@@ -161,7 +173,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/assets/www/cordova_plugins.js" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PauseEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayEvent.java" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayPauseEvent.java" />
@@ -177,6 +188,7 @@
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
+        <option value="$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js" />
       </list>
     </option>
   </component>
@@ -575,7 +587,11 @@
       <created>1377263944329</created>
       <updated>1377263944330</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Improve the touch responsiveness of buttons.">
+      <created>1377297755091</created>
+      <updated>1377297755091</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -608,7 +624,7 @@
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38603988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38603988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -619,7 +635,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2439222" sideWeight="0.6139601" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2439222" sideWeight="0.6139601" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -644,7 +660,9 @@
     <MESSAGE value="Change the play state transition in this app." />
     <MESSAGE value="Change to lock cpu while PlaybackService is running and improve startup sequence of PlaybackService." />
     <MESSAGE value="Locking CPU while playing, audio focus control and handling BECOMING_NOISY event have been supported." />
-    <option name="LAST_COMMIT_MESSAGE" value="Locking CPU while playing, audio focus control and handling BECOMING_NOISY event have been supported." />
+    <MESSAGE value="Improve the touch responsiveness of buttons." />
+    <MESSAGE value="Research the touch responsibility again and improve it according to the research." />
+    <option name="LAST_COMMIT_MESSAGE" value="Research the touch responsibility again and improve it according to the research." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -654,25 +672,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayPauseEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="19" selection-start="770" selection-end="770" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PrepareEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="775" selection-end="775" vertical-scroll-proportion="0.5869565" vertical-offset="0" max-vertical-offset="660">
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/TrackChangedEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="775" selection-end="775" vertical-scroll-proportion="0.5869565" vertical-offset="0" max-vertical-offset="570" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/apache/cordova/core/Notification.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="138" column="0" selection-start="5148" selection-end="5148" vertical-scroll-proportion="4.194631" vertical-offset="0" max-vertical-offset="5790" />
@@ -756,9 +755,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="32" selection-end="46" vertical-scroll-proportion="0.03846154" vertical-offset="0" max-vertical-offset="390">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="43" selection-start="456" selection-end="456" vertical-scroll-proportion="0.34615386" vertical-offset="0" max-vertical-offset="10035">
+        <state line="99" column="24" selection-start="3917" selection-end="3917" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="10035">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="17" selection-start="2403" selection-end="2403" vertical-scroll-proportion="-6.0833335" vertical-offset="709" max-vertical-offset="1140">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="88" column="0" selection-start="3799" selection-end="3799" vertical-scroll-proportion="1.4641025" vertical-offset="749" max-vertical-offset="1410">
           <folding />
         </state>
       </provider>

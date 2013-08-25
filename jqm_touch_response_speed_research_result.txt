@@ -1,0 +1,27 @@
+vclick
+==============
+1st 2.696
+2nd 3.336
+3rd 2.203
+
+touchend
+==============
+1st 2.883
+2nd 2.445
+3rd 2.672
+
+click (Unexpectedly it is the fastest way!)
+==============
+1st 2.508
+2nd 1.547
+3rd 1.797
+
+fastclick.js
+==============
+1st 2.813
+2nd 2.406
+3rd 1.906
+
+Reference site
+==============
+https://forum.jquery.com/topic/how-to-remove-the-300ms-delay-when-clicking-on-a-link-in-jquery-mobile

@@ -56,6 +56,11 @@ var app = {
 
         $('#settings').on('click', function() {
             console.log("#settings clicked");
+        // $('#settings').on('vclick', function() {
+        //     console.log("#settings vclicked");
+        // $('#settings').on('touchend', function(e) {
+        //     console.log("#settings touchend");
+        //     e.preventDefault();
 
             $.ajax({
                 url: 'oss_licenses.txt',
@@ -90,6 +95,11 @@ var app = {
 
                 $('ul[id="list_albums"] a').on('click', function() {
                     console.log('#list_albums#click');
+                // $('ul[id="list_albums"] a').on('vclick', function() {
+                //     console.log('#list_albums#vclick');
+                // $('ul[id="list_albums"] a').on('touchend', function(e) {
+                //     console.log('#list_albums#touchend');
+                //     e.preventDefault();
 
                     var url = $(this).attr("href");
                     var albumId = url.replace(/.*id=/, "");
@@ -138,8 +148,10 @@ var app = {
                 console.log('setTracks#onSuccess');
 
                 $('ul[id="list_tracks"] li').on('click', function() {
+                // $('ul[id="list_tracks"] li').on('vclick', function() {
+                // $('ul[id="list_tracks"] li').on('touchend', function(e) {
+                //     e.preventDefault();
 
-                    // TODO: The index does not change...
                     var index = $(this).index();
                     console.log('#list_tracks#click index: ' + index);
 
