@@ -30,13 +30,15 @@ public class PlaybackController extends CordovaPlugin {
 
     private EventBus eventBus = null;
 
+    private long albumId = -1L;
     private long[] trackList = null;
     private int startIndex = 0;
 
     private CallbackContext onPlayStateChanged = null;
     private CallbackContext onTrackChanged = null;
 
-//    private String onPlayStateChangedCallbackId = null;
+    private PlayStateChangedEvent lastPlayStateEvent = null;
+    private TrackChangedEvent lastTrackChangedEvent = null;
 
     public PlaybackController() {
         eventBus = EventBus.getDefault();
@@ -48,6 +50,14 @@ public class PlaybackController extends CordovaPlugin {
         super.onResume(multitasking);
         eventBus = EventBus.getDefault();
         eventBus.register(this);
+
+        if(lastPlayStateEvent != null) {
+            eventBus.post(lastPlayStateEvent);
+        }
+
+        if(lastTrackChangedEvent != null) {
+            eventBus.post(lastTrackChangedEvent);
+        }
     }
 
     @Override
@@ -85,6 +95,8 @@ public class PlaybackController extends CordovaPlugin {
             return true;
         } else if("prevTrack".equals(action)) {
             return true;
+        } else if("getPlayState".equals(action)) {
+            return executeGetPlayState(callbackContext);
         }
 
         return false;
@@ -100,7 +112,8 @@ public class PlaybackController extends CordovaPlugin {
     }
 
     private boolean executeSetIndex(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        startIndex = args.getInt(0);
+        albumId = args.getLong(0);
+        startIndex = args.getInt(1);
 
         Context context = cordova.getActivity().getApplicationContext();
         Intent intent = new Intent(context, PlaybackService.class);
@@ -131,7 +144,6 @@ public class PlaybackController extends CordovaPlugin {
 
     private boolean executeSetPlayStateChangedCallback(CallbackContext callbackContext) {
         onPlayStateChanged = callbackContext;
-//        onPlayStateChangedCallbackId = callbackContext.getCallbackId();
         return true;
     }
 
@@ -146,13 +158,32 @@ public class PlaybackController extends CordovaPlugin {
         return true;
     }
 
+    private boolean executeGetPlayState(CallbackContext callbackContext) {
+        try {
+            if(lastPlayStateEvent != null) {
+                JSONObject parameter = new JSONObject();
+                parameter.put("albumId", albumId);
+                parameter.put("state", lastPlayStateEvent.getState());
+                parameter.put("index", lastPlayStateEvent.getIndex());
+                callbackContext.success(parameter);
+            } else {
+                callbackContext.error("A last play state changed event does not exist.");
+            }
+            return true;
+
+        } catch(JSONException e) {
+            Log.d(TAG, e.toString());
+            return false;
+        }
+    }
+
     public void onEvent(PlayStateChangedEvent event) {
         if(onPlayStateChanged != null) {
             try {
                 JSONObject parameter = new JSONObject();
+                parameter.put("albumId", albumId);
                 parameter.put("state", event.getState());
                 parameter.put("index", event.getIndex());
-//                onPlayStateChanged.success(parameter);
                 PluginResult result = new PluginResult(PluginResult.Status.OK, parameter);
                 result.setKeepCallback(true);
                 onPlayStateChanged.sendPluginResult(result);
@@ -161,12 +192,15 @@ public class PlaybackController extends CordovaPlugin {
                 Log.e(TAG, e.toString());
             }
         }
+
+        lastPlayStateEvent = event;
     }
 
     public void onEvent(TrackChangedEvent event) {
         if(onTrackChanged != null) {
             try {
                 JSONObject parameter = new JSONObject();
+                parameter.put("albumId", albumId);
                 parameter.put("index", event.getIndex());
                 onTrackChanged.success(parameter);
 
@@ -174,5 +208,7 @@ public class PlaybackController extends CordovaPlugin {
                 Log.e(TAG, e.toString());
             }
         }
+
+        lastTrackChangedEvent = event;
     }
 }

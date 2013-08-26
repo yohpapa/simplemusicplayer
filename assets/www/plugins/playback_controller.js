@@ -22,38 +22,40 @@ cordova.define('cordova/plugin/playback_controller', function(require, exports, 
 
     var PlaybackController = function() {};
 
-    PlaybackController.prototype.setTracks = function(trackIds, onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'setTracks', trackIds);
+    PlaybackController.prototype.setTracks = function(trackIds, onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'setTracks', trackIds);
     }
 
-    PlaybackController.prototype.setIndex = function(index, onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'setIndex', [index]);
+    PlaybackController.prototype.setIndex = function(albumId, index, onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'setIndex', [albumId, index]);
     }
 
     PlaybackController.prototype.setPlayStateChangedCallback = function(onChanged) {
-        exec(onChanged, function(err) {
-            console.log(err);
-        }, 'PlaybackController', 'setPlayStateChangedCallback', []);
+        exec(onChanged, function(err) { console.log(err); }, 'PlaybackController', 'setPlayStateChangedCallback', []);
     }
 
-    PlaybackController.prototype.playTrack = function(onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'playTrack', []);
+    PlaybackController.prototype.playTrack = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'playTrack', []);
     }
 
-    PlaybackController.prototype.pauseTrack = function(onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'pauseTrack', []);
+    PlaybackController.prototype.pauseTrack = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'pauseTrack', []);
     }
 
-    PlaybackController.prototype.togglePlayPause = function(onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'togglePlayPause', []);
+    PlaybackController.prototype.togglePlayPause = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'togglePlayPause', []);
     }
 
-    PlaybackController.prototype.nextTrack = function(onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'nextTrack', []);
+    PlaybackController.prototype.nextTrack = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'nextTrack', []);
     }
 
-    PlaybackController.prototype.prevTrack = function(onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'PlaybackController', 'prevTrack', []);
+    PlaybackController.prototype.prevTrack = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'prevTrack', []);
+    }
+
+    PlaybackController.prototype.getPlayState = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'PlaybackController', 'getPlayState', []);
     }
 
     var playbackController = new PlaybackController();

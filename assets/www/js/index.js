@@ -109,10 +109,6 @@ var app = {
                     $('#page_album_tracks').data('param', {albumId: albumId});
                 });
             }
-
-        }, function(err) {
-            console.log("onFailed");
-            console.log(err);
         });
     },
 
@@ -139,6 +135,15 @@ var app = {
             });
             $('#list_tracks').listview('refresh');
 
+            // Store the album ID to verify a play state changed event
+            currentAlbumId = albumId;
+
+            // Get current playing track index and update list if necessary.
+            pb.getPlayState(function(parameter) {
+                console.log('getPlayState#onSuccess');
+                onPlayStateChanged(parameter);
+            });
+
             // Set the track ID's list to the playback controller to play them.
             var trackIds = [];
             $.each(data.tracks, function(index, track) {
@@ -148,49 +153,35 @@ var app = {
                 console.log('setTracks#onSuccess');
 
                 $('ul[id="list_tracks"] li').on('click', function() {
-                // $('ul[id="list_tracks"] li').on('vclick', function() {
-                // $('ul[id="list_tracks"] li').on('touchend', function(e) {
-                //     e.preventDefault();
-
                     var index = $(this).index();
                     console.log('#list_tracks#click index: ' + index);
 
                     // Set the index of track which we would like to play soon.
                     console.log('index: ' + index);
-                    pb.setIndex(index, function() {
+                    pb.setIndex(albumId, index, function() {
                         console.log('setIndex#onSuccess');
 
                         // OK, we are ready to start playing the tracks.
                         pb.togglePlayPause(function() {
                             console.log('togglePlayPause#onSuccess');
-                        }, function(err) {
-                            console.log('togglePlayPause#onFailed');
-                            console.log(err);
                         });
-
-                    }, function(err) {
-                        console.log('setIndex#onFailed');
-                        console.log(err);
                     });
                 });
-
-            }, function(err) {
-                console.log('setTracks#onFailed');
-                console.log(err);
             });
-
-        }, function(err) {
-            console.log('getTrackList#onFailed');
-            console.log(err);
         })
     }
 };
 
 function onPlayStateChanged(parameter) {
-    console.log('onPlayStateChanged state: ' + parameter.state + ", index: " + parameter.index);
+    console.log('onPlayStateChanged state: ' + parameter.state + ", albumId: " + parameter.albumId + ", index: " + parameter.index);
 
     if($.mobile.activePage.attr('id') != 'page_album_tracks') {
         console.log('This page is not page_album_tracks.');
+        return;
+    }
+
+    if(parameter.albumId != currentAlbumId) {
+        console.log('This page (' + currentAlbumId + ') is not the album page (' + parameter.albumId + '.)');
         return;
     }
 
@@ -218,3 +209,4 @@ function onPlayStateChanged(parameter) {
 
 var isDeviceReady = false;
 var isPageCreated = false;
+var currentAlbumId = -1;

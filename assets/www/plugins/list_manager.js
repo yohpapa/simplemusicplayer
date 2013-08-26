@@ -22,12 +22,12 @@ cordova.define('cordova/plugin/list_manager', function(require, exports, module)
 
     var ListManager = function() {};
 
-    ListManager.prototype.getAlbumList = function(onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'ListManager', 'get_album_info', []);
+    ListManager.prototype.getAlbumList = function(onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'ListManager', 'get_album_info', []);
     }
 
-    ListManager.prototype.getTrackList = function(albumId, onSuccess, onFailed) {
-        exec(onSuccess, onFailed, 'ListManager', 'get_track_info', [albumId]);
+    ListManager.prototype.getTrackList = function(albumId, onSuccess) {
+        exec(onSuccess, function(err) { console.log(err); }, 'ListManager', 'get_track_info', [albumId]);
     }
 
     var listManager = new ListManager();
