@@ -435,7 +435,7 @@ public class PlaybackService extends Service
             }
 
             player.start();
-            eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PLAYING, currentIndex));
+            eventBus.postSticky(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PLAYING, currentIndex));
 
             updateNotification();
         }
@@ -446,7 +446,7 @@ public class PlaybackService extends Service
             abandonAudioFocus();
 
             player.pause();
-            eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PAUSED, currentIndex));
+            eventBus.postSticky(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PAUSED, currentIndex));
 
             showNotification(
                     NOTIFICATION_TYPE_PLAY,
@@ -462,7 +462,7 @@ public class PlaybackService extends Service
             player.pause();
         }
 
-        eventBus.post(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_STOPPED, currentIndex));
+        eventBus.postSticky(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_STOPPED, currentIndex));
         stopSelf();
     }
 

@@ -14,8 +14,10 @@
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="simplemusicplayer" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64415596-63b1-4baf-96be-0e7f5a1d1911" name="Default" comment="Fix the bug that when displaying a track list playing or paused state is not shown correctly.">
+    <list default="true" id="64415596-63b1-4baf-96be-0e7f5a1d1911" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" afterPath="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="android.iws" />
@@ -88,16 +90,16 @@
       <file leaf-file-name="PlaybackService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="421" column="13" selection-start="12847" selection-end="12847" vertical-scroll-proportion="0.0" vertical-offset="4830" max-vertical-offset="9780">
+            <state line="464" column="28" selection-start="14212" selection-end="14212" vertical-scroll-proportion="0.0" vertical-offset="5340" max-vertical-offset="9780">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlaybackController.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PlaybackController.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="28" selection-start="1498" selection-end="1498" vertical-scroll-proportion="0.0" vertical-offset="31" max-vertical-offset="2985">
+            <state line="161" column="0" selection-start="5631" selection-end="5631" vertical-scroll-proportion="0.3300248" vertical-offset="1967" max-vertical-offset="3015">
               <folding />
             </state>
           </provider>
@@ -106,16 +108,16 @@
       <file leaf-file-name="PlayStateChangedEvent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="28" selection-start="1076" selection-end="1076" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
+            <state line="28" column="28" selection-start="1076" selection-end="1076" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="735">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="35" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.5259594" vertical-offset="382" max-vertical-offset="1020">
+            <state line="37" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="0.0" vertical-offset="344" max-vertical-offset="1020">
               <folding />
             </state>
           </provider>
@@ -161,11 +163,11 @@
         <option value="$PROJECT_DIR$/res/values/ids.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/xml/config.xml" />
-        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
         <option value="$PROJECT_DIR$/assets/www/third_party/fastclick/fastclick.js" />
         <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/events/PlayStateChangedEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java" />
+        <option value="$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java" />
       </list>
     </option>
   </component>
@@ -299,24 +301,24 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
     <property name="project.structure.last.edited" value="Global Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="ExportedApkPath" value="$PROJECT_DIR$/simplemusicplayer_v002.apk" />
-    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
+    <property name="ExportedApkPath" value="$PROJECT_DIR$/simplemusicplayer_v002.apk" />
     <property name="ExportedModule" value="android" />
-    <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="android" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -329,8 +331,8 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="preferences.pluginManager" />
-    <property name="project.structure.side.proportion" value="0.2" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
@@ -510,7 +512,11 @@
       <created>1377552208715</created>
       <updated>1377552208715</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Release version 0.0.2.">
+      <created>1377552364192</created>
+      <updated>1377552364192</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -543,19 +549,19 @@
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38603988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38603988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23581848" sideWeight="0.171875" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32763532" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47435898" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47301137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32763532" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2439222" sideWeight="0.67094016" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32905984" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2439222" sideWeight="0.6139601" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -582,7 +588,8 @@
     <MESSAGE value="Improve the touch responsiveness of buttons." />
     <MESSAGE value="Research the touch responsibility again and improve it according to the research." />
     <MESSAGE value="Fix the bug that when displaying a track list playing or paused state is not shown correctly." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the bug that when displaying a track list playing or paused state is not shown correctly." />
+    <MESSAGE value="Release version 0.0.2." />
+    <option name="LAST_COMMIT_MESSAGE" value="Release version 0.0.2." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -600,13 +607,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="39" selection-end="856" vertical-scroll-proportion="-0.5555556" vertical-offset="0" max-vertical-offset="570">
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/ids.xml">
@@ -676,23 +683,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="0.0" vertical-offset="344" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/PlaybackService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="421" column="13" selection-start="12847" selection-end="12847" vertical-scroll-proportion="0.0" vertical-offset="4830" max-vertical-offset="9780">
+        <state line="464" column="28" selection-start="14212" selection-end="14212" vertical-scroll-proportion="0.0" vertical-offset="5340" max-vertical-offset="9780">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/yohpapa/research/simplemusicplayer/plugins/PlaybackController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="28" selection-start="1498" selection-end="1498" vertical-scroll-proportion="0.0" vertical-offset="31" max-vertical-offset="2985">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="35" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.5259594" vertical-offset="382" max-vertical-offset="1020">
+        <state line="161" column="0" selection-start="5631" selection-end="5631" vertical-scroll-proportion="0.3300248" vertical-offset="1967" max-vertical-offset="3015">
           <folding />
         </state>
       </provider>
