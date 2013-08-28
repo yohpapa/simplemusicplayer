@@ -51,12 +51,12 @@ public class PlaybackController extends CordovaPlugin {
         eventBus = EventBus.getDefault();
         eventBus.register(this);
 
-        PlayStateChangedEvent stateChanged = (PlayStateChangedEvent)eventBus.getStickyEvent(PlayStateChangedEvent.class);
+        PlayStateChangedEvent stateChanged = (PlayStateChangedEvent)eventBus.removeStickyEvent(PlayStateChangedEvent.class);
         if(stateChanged != null) {
             eventBus.post(stateChanged);
         }
 
-        TrackChangedEvent trackChanged =(TrackChangedEvent)eventBus.getStickyEvent(TrackChangedEvent.class);
+        TrackChangedEvent trackChanged =(TrackChangedEvent)eventBus.removeStickyEvent(TrackChangedEvent.class);
         if(trackChanged != null) {
             eventBus.post(trackChanged);
         }
