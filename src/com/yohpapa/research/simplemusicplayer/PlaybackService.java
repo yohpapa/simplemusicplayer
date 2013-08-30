@@ -22,6 +22,7 @@ package com.yohpapa.research.simplemusicplayer;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -71,6 +72,9 @@ public class PlaybackService extends Service
     public static final String ACTION_SELECT = URI_BASE + "ACTION_SELECT";
     public static final String PRM_START_INDEX = URI_BASE + "PRM_START_INDEX";
     public static final String PRM_TRACK_LIST = URI_BASE + "PRM_TRACK_LIST";
+
+    private static final String ACTION_BLUETOOTH_META_CHANGED = "com.android.music.metachanged";
+    private static final String ACTION_BLUETOOTH_PLAY_STATE_CHANGED = "com.android.music.playstatechanged";
 
     private static final float DUCKING_VOLUME_LEVEL = 0.3f;
 
@@ -212,7 +216,10 @@ public class PlaybackService extends Service
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        registerReceiver(noisyEventReceiver, filter);
+        filter.addAction(Intent.ACTION_HEADSET_PLUG);
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        registerReceiver(audioOutputChangedEventReceiver, filter);
 
         return player;
     }
@@ -224,7 +231,7 @@ public class PlaybackService extends Service
             player.release();
             player = null;
 
-            unregisterReceiver(noisyEventReceiver);
+            unregisterReceiver(audioOutputChangedEventReceiver);
         }
     }
 
@@ -449,7 +456,8 @@ public class PlaybackService extends Service
             eventBus.postSticky(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_PAUSED, currentIndex));
 
             showNotification(
-                    NOTIFICATION_TYPE_PLAY,
+                    PLAY_STATE_PLAYING,
+                    getCurrentAudioPath(),
                     currentTrackInfo.getTitle(),
                     currentTrackInfo.getArtistName(),
                     currentTrackInfo.getAlbumName(),
@@ -501,6 +509,7 @@ public class PlaybackService extends Service
                         });
                         prepareToPlay(trackIds[currentIndex]);
                     } else {
+                        player.setVolume(1.0f, 1.0f);
                         if(!player.isPlaying()) {
                             player.start();
                         }
@@ -656,6 +665,7 @@ public class PlaybackService extends Service
     public void onEventMainThread(NotificationPreparedEvent event) {
         Log.d(TAG, "onEventMainThread: NotificationPreparedEvent");
 
+        long trackId = event.getTrackId();
         String title = event.getTitle();
         String artist = event.getArtist();
         String album = event.getAlbum();
@@ -666,13 +676,20 @@ public class PlaybackService extends Service
         currentTrackInfo.setArtistName(artist);
         currentTrackInfo.setArtwork(artwork);
 
-        showNotification(NOTIFICATION_TYPE_PAUSE, title, artist, album, artwork);
+        showNotification(PLAY_STATE_PAUSED, getCurrentAudioPath(), title, artist, album, artwork);
+
+        sendMetaInfoChanged(trackId, artist, album, title);
+        sendPlayStateChanged(trackId, artist, album, title);
     }
 
-    private static final int NOTIFICATION_TYPE_PAUSE = 0;
-    private static final int NOTIFICATION_TYPE_PLAY = 1;
-    private void showNotification(int type, String title, String artist, String album, Bitmap artwork) {
-        Log.d(TAG, "showNotification type: " + type);
+    private static final int PLAY_STATE_PAUSED = 0;
+    private static final int PLAY_STATE_PLAYING = 1;
+    private static final int AUDIO_PATH_SPEAKER = 0;
+    private static final int AUDIO_PATH_WIRED = 1;
+    private static final int AUDIO_PATH_A2DP = 2;
+    private static final int AUDIO_PATH_UNKNOWN = -1;
+
+    private void showNotification(int playState, int audioPath, String title, String artist, String album, Bitmap artwork) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setWhen(System.currentTimeMillis());
@@ -681,7 +698,16 @@ public class PlaybackService extends Service
         if(artwork != null) {
             builder.setLargeIcon(artwork);
         }
-        builder.setSmallIcon(R.drawable.ic_launcher);
+        int icon = R.drawable.ic_launcher;
+        if(audioPath == AUDIO_PATH_SPEAKER) {
+            icon = R.drawable.ic_speaker;
+        } else if(audioPath == AUDIO_PATH_A2DP) {
+            icon = R.drawable.ic_a2dp;
+        } else if(audioPath == AUDIO_PATH_WIRED) {
+            icon = R.drawable.ic_wired;
+        }
+        builder.setSmallIcon(icon);
+
         builder.setTicker(title);
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         builder.setContentText(artist);
@@ -689,8 +715,7 @@ public class PlaybackService extends Service
 
         Intent actionIntent = new Intent(this, PlaybackService.class);
         String keyTop;
-        int icon;
-        if(type == NOTIFICATION_TYPE_PAUSE) {
+        if(playState == PLAY_STATE_PAUSED) {
             actionIntent.setAction(ACTION_PAUSE);
             keyTop = "PAUSE";
             icon = android.R.drawable.ic_media_pause;
@@ -717,7 +742,7 @@ public class PlaybackService extends Service
     // --------------------------------------------------------------------------------------------
     // Audio output hardware handling
     // --------------------------------------------------------------------------------------------
-    private final BroadcastReceiver noisyEventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver audioOutputChangedEventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent == null)
@@ -728,8 +753,143 @@ public class PlaybackService extends Service
                 return;
 
             if(AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
-                pauseTrack();
+                onReceiveActionAudioBecomingNoisy(intent);
+            } else if(Intent.ACTION_HEADSET_PLUG.equals(action)) {
+                onReceiveActionHeadsetPlug(intent);
+            } else if(
+                BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) ||
+                BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                onReceiveActionAclConnection(intent);
+            }
+        }
+
+        private void onReceiveActionAudioBecomingNoisy(Intent intent) {
+            pauseTrack();
+        }
+
+        private void onReceiveActionHeadsetPlug(Intent intent) {
+            int state = intent.getIntExtra("state", -1);
+            if(state == -1) {
+                Log.d(TAG, "Unknown headset plug event parameter.");
+                return;
+            }
+
+            if(state == 0) {    // Disconnected
+                showNotification(getCurrentAudioPathOtherThanWired());
+            } else {            // Connected
+                showNotification(AUDIO_PATH_WIRED);
+            }
+        }
+
+        private void onReceiveActionAclConnection(Intent intent) {
+            Log.d(TAG, "onReceiveActionAclConnection action: " + intent.getAction());
+
+            String action = intent.getAction();
+            if(BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+                showNotification(AUDIO_PATH_A2DP);
+            } else {
+                showNotification(getCurrentAudioPathOtherThanA2dp());
             }
         }
     };
+
+    private int getCurrentAudioPath() {
+        AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if(manager == null)
+            return AUDIO_PATH_UNKNOWN;
+
+        boolean result = manager.isBluetoothA2dpOn();
+        if(result) {
+            return AUDIO_PATH_A2DP;
+        }
+
+        // This method was deprecated in API level 14.
+        // Use only to check is a headset is connected or not.
+        result = manager.isWiredHeadsetOn();
+        if(result) {
+            return AUDIO_PATH_WIRED;
+        }
+
+        // setSpeakerphoneOn does not work well...
+        return AUDIO_PATH_SPEAKER;
+    }
+
+    private int getCurrentAudioPathOtherThanA2dp() {
+        AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if(manager == null)
+            return AUDIO_PATH_UNKNOWN;
+
+        // This method was deprecated in API level 14.
+        // Use only to check is a headset is connected or not.
+        boolean result = manager.isWiredHeadsetOn();
+        if(result) {
+            return AUDIO_PATH_WIRED;
+        }
+
+        // setSpeakerphoneOn does not work well...
+        return AUDIO_PATH_SPEAKER;
+    }
+
+    private int getCurrentAudioPathOtherThanWired() {
+        AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if(manager == null) {
+            return AUDIO_PATH_UNKNOWN;
+        }
+
+        boolean result = manager.isBluetoothA2dpOn();
+        if(result) {
+            return AUDIO_PATH_A2DP;
+        }
+
+        return AUDIO_PATH_SPEAKER;
+    }
+
+    private void showNotification(int audioPath) {
+
+        if(currentTrackInfo == null)
+            return;
+
+        int playState = PLAY_STATE_PAUSED;
+        if(player != null && !player.isPlaying()) {
+            playState = PLAY_STATE_PLAYING;
+        }
+
+        String artist = currentTrackInfo.getArtistName();
+        String album = currentTrackInfo.getAlbumName();
+        String title = currentTrackInfo.getTitle();
+        Bitmap artwork = currentTrackInfo.getArtwork();
+
+        showNotification(playState, audioPath, title, artist, album, artwork);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Notification to a remote bluetooth device
+    // ---------------------------------------------------------------------------------------------
+    private void sendMetaInfoChanged(long trackId, String artist, String album, String title) {
+        sendBluetoothNotify(ACTION_BLUETOOTH_META_CHANGED, trackId, artist, album, title);
+    }
+
+    private void sendPlayStateChanged(long trackId, String artist, String album, String title) {
+        sendBluetoothNotify(ACTION_BLUETOOTH_PLAY_STATE_CHANGED, trackId, artist, album, title);
+    }
+
+    private void sendBluetoothNotify(String action, long trackId, String artist, String album, String title) {
+
+        boolean isPlaying = (player == null) ? false : player.isPlaying();
+        int listSize = (trackIds == null) ? 0 : trackIds.length;
+        int duration = (player == null) ? 0 : player.getDuration();
+        int position = (player == null) ? 0 : player.getCurrentPosition();
+
+        Intent intent = new Intent(action);
+        intent.putExtra("id", trackId);
+        intent.putExtra("artist", artist);
+        intent.putExtra("album", album);
+        intent.putExtra("track", title);
+        intent.putExtra("playing", isPlaying);
+        intent.putExtra("ListSize", listSize);
+        intent.putExtra("duration", duration);
+        intent.putExtra("position", position);
+
+        sendBroadcast(intent);
+    }
 }
