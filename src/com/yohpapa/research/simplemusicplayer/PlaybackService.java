@@ -68,6 +68,7 @@ public class PlaybackService extends Service
     private static final String ACTION_PAUSE = URI_BASE + "ACTION_PAUSE";
     private static final String ACTION_PLAY = URI_BASE + "ACTION_PLAY";
     private static final String ACTION_STOP = URI_BASE + "ACTION_STOP";
+    private static final String ACTION_TRACK_UP = URI_BASE + "ACTION_TRACK_UP";
 
     public static final String ACTION_SELECT = URI_BASE + "ACTION_SELECT";
     public static final String PRM_START_INDEX = URI_BASE + "PRM_START_INDEX";
@@ -196,6 +197,8 @@ public class PlaybackService extends Service
             int startIndex = intent.getIntExtra(PRM_START_INDEX, 0);
             long[] trackList = intent.getLongArrayExtra(PRM_TRACK_LIST);
             eventBus.post(new PrepareEvent(trackList, startIndex));
+        } else if(ACTION_TRACK_UP.equals(action)) {
+            nextTrack();
         }
 
         return START_REDELIVER_INTENT;
@@ -316,18 +319,7 @@ public class PlaybackService extends Service
     @Override
     public void onCompletion(MediaPlayer mp) {
         Log.d(TAG, "onCompletion");
-
-        currentIndex = (currentIndex + 1) % trackIds.length;
-        positionToRestore = -1;
-        prepareToPlay(trackIds[currentIndex]);
-
-        postProcesses.add(new Runnable() {
-            @Override
-            public void run() {
-                playTrack();
-                eventBus.post(new TrackChangedEvent(currentIndex));
-            }
-        });
+        nextTrack();
     }
 
     @Override
@@ -472,6 +464,20 @@ public class PlaybackService extends Service
 
         eventBus.postSticky(new PlayStateChangedEvent(PlayStateChangedEvent.STATE_STOPPED, currentIndex));
         stopSelf();
+    }
+
+    private void nextTrack() {
+        currentIndex = (currentIndex + 1) % trackIds.length;
+        positionToRestore = -1;
+        prepareToPlay(trackIds[currentIndex]);
+
+        postProcesses.add(new Runnable() {
+            @Override
+            public void run() {
+                playTrack();
+                eventBus.post(new TrackChangedEvent(currentIndex));
+            }
+        });
     }
 
     // --------------------------------------------------------------------------------------------
@@ -713,27 +719,32 @@ public class PlaybackService extends Service
         builder.setContentText(artist);
         builder.setSubText(album);
 
-        Intent actionIntent = new Intent(this, PlaybackService.class);
+        Intent intent = new Intent(this, PlaybackService.class);
         String keyTop;
         if(playState == PLAY_STATE_PAUSED) {
-            actionIntent.setAction(ACTION_PAUSE);
-            keyTop = "PAUSE";
+            intent.setAction(ACTION_PAUSE);
+            keyTop = "Pause";
             icon = android.R.drawable.ic_media_pause;
         } else {
-            actionIntent.setAction(ACTION_PLAY);
-            keyTop = "PLAY";
+            intent.setAction(ACTION_PLAY);
+            keyTop = "Play";
             icon = android.R.drawable.ic_media_play;
         }
-        PendingIntent actionPendingIntent = PendingIntent.getService(this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(icon, keyTop, actionPendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(icon, keyTop, pendingIntent);
 
-        Intent stopIntent = new Intent(this, PlaybackService.class);
-        stopIntent.setAction(ACTION_STOP);
-        PendingIntent stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(android.R.drawable.ic_delete, "STOP", stopPendingIntent);
+        intent = new Intent(this, PlaybackService.class);
+        intent.setAction(ACTION_TRACK_UP);
+        pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.ic_media_next, "Next", pendingIntent);
 
-        Intent intent = new Intent(this, SimpleMusicPlayer.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent = new Intent(this, PlaybackService.class);
+        intent.setAction(ACTION_STOP);
+        pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.ic_delete, "Stop", pendingIntent);
+
+        intent = new Intent(this, SimpleMusicPlayer.class);
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
 
         startForeground(R.id.notification_id, builder.build());
